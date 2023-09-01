@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>CRUD Blog</title>
+
+    <style>
+        .table{
+            width: 70%;
+            margin: 0 auto;
+            margin-top: 1%;
+        }
+        .thead{
+            background-color: #916FC5;
+        }
+        .thead tr th{
+            color: white;
+        }
+        .add{
+            margin: 0 auto !important;
+            width: 100px;
+            margin-right: 72em !important;
+            align-items: center;
+            padding-top: 4em;
+            display: flex;
+        }
+        td{}
+    </style>
+  </head>
+  <body>
+    <div class="add">
+        <a  class='btn btn-info' data-toggle="modal" data-target="#addModal">
+            Add New Data
+        </a>
+        <a  class='btn btn-outline-danger ml-3' id="logout">
+            Logout
+        </a>
+    </div>
+    <table class="table table-hover">
+        <thead class="thead">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (data.length<= 0) {%>
+                <tr>
+                    <td>
+                        No records to show!
+                    </td>
+                </tr>
+            <% } else {%>
+                <% for(var i=0; i < data.length; i++) { %>
+                <tr>
+                    <th scope="row"><%= data[i].blog_id %></th>
+                    <td><%= data[i].Title %></td>
+                    <td><%= data[i].Description %></td>
+                    <td>
+                        <a  class='btn btn-warning updated' updateData="{'id':'<%= data[i].blog_id %>', 'title':'<%= data[i].Title %>', 'Description':'<%= data[i].Description %>'}">
+                            Update
+                        </a>
+                        <a  class='btn btn-danger' href="/<%= data[i].blog_id %>/delete">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+                <% } %>
+            <% } %>
+        </tbody>
+        </table>
+    </table>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/create" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Data</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <input type="text" name="Title" class="form-control" placeholder="Title" /><br><br>
+                            <input type="text" name="Description" class="form-control" placeholder="Description" /><br><br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add new data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="" id="updateForm" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Update Data</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" name="Title" class="form-control" placeholder="Title" /><br><br>
+                        <input type="text" name="Description" class="form-control" placeholder="Description" /><br><br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+       $(document).ready(function(){
+           $('.updated').on('click', function(){
+               let index = $(this).attr('updateData');
+
+               index = index.replace(/'/g, '"');
+
+               index = JSON.parse(index);
+
+               $('#updateForm').attr('action','/'+index['blog_id']+'/update');
+
+               $('#updatetitle').val(index['title']);
+               $('#updatedescription').val(index['description']);
+
+               $('#updateModal').modal('show');
+           });
+
+           $('#logout').on('click', function(){
+               $.post("/logout", function(data, status){
+                    if(status == 'success'){
+                        window.location.href = '/';
+                    }
+                });
+           });
+       });
+    </script>
+  </body>
+</html>

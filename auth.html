@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Node Express CRUD</title>
+
+  </head>
+  <body>
+    <!-- Modal -->
+    <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/login" id="authForm" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <input type="text" name="Email" class="form-control" placeholder="email" /><br><br>
+                            <input type="password" name="Password" class="form-control" placeholder="password" /><br><br>
+                    </div>
+                    <div class="modal-footer">
+                        <p class='alert alert-danger' style="margin-right: 20%; display:none;">Hello</p>
+                        <button type="button" class="btn btn-secondary" id="navButton">Signup</button>
+                        <button type="submit" class="btn btn-info" id="actionButton">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+       $(document).ready(function(){
+            let urlParams = new URLSearchParams(window.location.search);
+            let myParam = urlParams.get('error');
+
+            if(myParam){
+                $('.modal-footer p').html(myParam);
+                $('.modal-footer p').fadeIn(1000).fadeOut(2000);
+            }
+            $('#Modal').modal('show');
+
+            $('#navButton').on('click', () => {
+                setTimeout(function(){
+                    $('#Modal').modal('hide');
+                    if($('#navButton').text()=='Signup'){
+                        $('#exampleModalLabel').html('Signup');
+                        $('#navButton').html('Login');
+                        $('#authForm').attr('action','/signup');
+                    }else{
+                        $('#exampleModalLabel').html('Login');
+                        $('#navButton').html('Signup');
+                        $('#Modal').modal('show');
+                        $('#authForm').attr('action','/login');
+                    }
+                }, 200);
+
+                setTimeout(function(){
+                    $('#Modal').modal('show');
+                }, 600)
+            });
+       });
+    </script>
+  </body>
+</html>
